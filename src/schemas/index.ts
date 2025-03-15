@@ -9,3 +9,6 @@ export const ProductSchema = z.object({
 })
 export const ResponseSchema = z.array(ProductSchema);
 export type ProductType = z.infer<typeof ProductSchema>;
+export type ItemType = Pick<ProductType, 'image' | 'title' | 'price'> & {
+	quantity: number;
+}

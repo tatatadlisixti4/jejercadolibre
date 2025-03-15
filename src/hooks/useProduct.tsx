@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { ProductType, ResponseSchema,  } from "../schemas";
+import { ItemType, ProductType, ResponseSchema,  } from "../schemas";
 
 
-const useCart = () => {
+const useProduct = () => {
 	const [products, setProducts] = useState<ProductType[]>([])
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("")
-
+	const [items, setItems] = useState<ItemType[]>([]);
+	
 	useEffect(() => {
 		const fetchApi = async () => {
 			try {
@@ -29,12 +30,20 @@ const useCart = () => {
 		}
 		fetchApi();
 	}, []);
+	
 
+
+	function addToCart(item: ItemType) {
+		setItems([...items, item])
+	}
+	
 	return {
 		products,
 		loading,
-		error
+		error,
+		items,
+		addToCart
 	}
 }
 
-export default useCart;
+export default useProduct;
