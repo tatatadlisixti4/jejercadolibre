@@ -7,8 +7,9 @@ type CardProps = {
 
 export default function Card({ product, addToCart }: CardProps) {
 	const handlerClick = () => {
-		const { image, title, price, ...resto } = product;
+		const { id, image, title, price, ...resto } = product;
 		addToCart({
+			id,
 			image,
 			title,
 			price,

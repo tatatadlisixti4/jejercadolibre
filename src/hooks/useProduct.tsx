@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ItemType, ProductType, ResponseSchema,  } from "../schemas";
+import { ItemType, ProductType, ResponseSchema, } from "../schemas";
 
 
 const useProduct = () => {
@@ -7,7 +7,7 @@ const useProduct = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("")
 	const [items, setItems] = useState<ItemType[]>([]);
-	
+
 	useEffect(() => {
 		const fetchApi = async () => {
 			try {
@@ -30,13 +30,19 @@ const useProduct = () => {
 		}
 		fetchApi();
 	}, []);
-	
+
 
 
 	function addToCart(item: ItemType) {
+		const itemExist = items.findIndex(product => product.id === item.id);
+		if (itemExist >= 0) {
+			const updatedCart = items.map(product => product.id === item.id ? {...item, quantity: product.quantity + 1} : product);
+			setItems(updatedCart);
+			return
+		}
 		setItems([...items, item])
 	}
-	
+
 	return {
 		products,
 		loading,
