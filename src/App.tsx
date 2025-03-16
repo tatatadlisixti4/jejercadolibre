@@ -11,7 +11,6 @@ function App() {
 	const TOTAL_PRODUCTOS = products.length;
 	const PRODUCTOS_POR_PAGINA = 6;
 	const PAGINAS = Math.ceil(TOTAL_PRODUCTOS / PRODUCTOS_POR_PAGINA);
-	console.log(PAGINAS);
 	
 	const productsSlice = products.slice(skip - 1, PRODUCTOS_POR_PAGINA + skip - 1);
 	
@@ -36,6 +35,7 @@ function App() {
 				removeToCart={removeToCart}
 				totalCompra={totalCompra}
 				vaciarCarro={vaciarCarro}
+				setPagina={setPagina}
 			/>
 			<main>
 				<div className="container mx-auto grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 p-4 gap-4">
@@ -50,12 +50,12 @@ function App() {
 				
 			</main>
 			<div className="container mx-auto flex gap-4 mt-10 w-fit">
-				{Array.from({length: PAGINAS}, (_, pagina) => (
+				{Array.from({length: PAGINAS}, (_, index) => (
 					<button 
-						key={pagina}	
-						className="px-2 py-1 border-2 rounded-sm cursor-pointer"
+						key={index}	
+						className={index + 1 === pagina ? "px-2 py-1 border-2 bg-green-400 rounded-sm cursor-pointer": "px-2 py-1 border-2 rounded-sm cursor-pointer"}
 						onClick={e => renderizarProductos(e)}
-					>{pagina+1}</button>
+					>{index+1}</button>
 				))}
 			</div>
 		</>
