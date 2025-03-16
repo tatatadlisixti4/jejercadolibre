@@ -18,7 +18,7 @@ export const ItemsStorageResponseSchema = z.array(
 	}).extend({
 		quantity: z.number(),
 	})
-);
+).min(0).max(8);
 
 /** Types */
 export type ProductType = z.infer<typeof ProductSchema>;

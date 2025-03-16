@@ -2,23 +2,24 @@ import { useEffect, useState } from "react";
 import { ItemsStorageResponseSchema, ItemType, ProductType, ResponseSchema, } from "../schemas";
 
 
-function isStorageValid() {
-
-}
-
 const useProduct = () => {
-	/** States y datos iniciales */
+	/** Establecer el initalStates de items en función al localStorage validado */
 	const initialItemsState = () => {
 		if (localStorage.length) {
 			const itemsStorage = localStorage.getItem("items");
 			if(!itemsStorage) return [];
-			const validateStorage = ItemsStorageResponseSchema.safeParse(JSON.parse(itemsStorage));
-			if(!validateStorage.success) return [];
-			return validateStorage.data;
+			try {
+				const validateStorage = ItemsStorageResponseSchema.safeParse(JSON.parse(itemsStorage));
+				if(!validateStorage.success) return [];
+				return validateStorage.data;
+			} catch (error) {
+				return [];
+			}
 		}
 		return [];
 	};
 	
+	/** States y datos iniciales */
 	const [products, setProducts] = useState<ProductType[]>([])
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("")
