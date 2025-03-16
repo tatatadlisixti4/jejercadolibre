@@ -32,7 +32,7 @@ export default function Cart({ items, addToCart, removeToCart, totalCompra, vaci
 	}
 
 	return (
-		<div className="absolute top-15 md:right-4 w-full max-w-[510px] min-w-[510px]  border bg-amber-50 px-4 py-2 rounded-sm space-y-4">
+		<div className="absolute top-15 md:right-4 w-full max-w-[510px] min-w-[510px] border bg-amber-50 px-4 py-2 rounded-sm space-y-4">
 			{items.length ? (
 				<>
 

@@ -17,7 +17,7 @@ export default function Card({ product, addToCart }: CardProps) {
 		})
 	}
 	return (
-		<div className="flex flex-col justify-center items-center max-w-xs w-full mx-auto p-4 border rounded-sm ">
+		<div className="flex flex-col justify-center items-center max-w-xs w-full mx-auto p-4 border-2 bg- rounded-sm ">
 			<div className="w-[120px] h-[180px] ">
 				<img
 					src={`${product.image}`}

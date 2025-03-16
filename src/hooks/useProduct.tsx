@@ -2,10 +2,27 @@ import { useEffect, useState } from "react";
 import { ItemType, ProductType, ResponseSchema, } from "../schemas";
 
 const useProduct = () => {
+	const initialItemsState = () => {
+		if (localStorage.length) {
+			const itemsStorage = localStorage.getItem("items");
+			if(!itemsStorage) return [];
+			return JSON.parse(itemsStorage);
+		}
+		return [];
+	};
+	
+	
 	const [products, setProducts] = useState<ProductType[]>([])
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("")
-	const [items, setItems] = useState<ItemType[]>([]);
+	const [items, setItems] = useState<ItemType[]>(initialItemsState());
+
+	useEffect(() => {
+		if (items.length) {
+			const itemsStorage = JSON.stringify(items);
+			localStorage.setItem("items", itemsStorage);
+		}
+	}, [items])
 
 	useEffect(() => {
 		const fetchApi = async () => {
@@ -29,6 +46,8 @@ const useProduct = () => {
 		}
 		fetchApi();
 	}, []);
+
+
 
 	function addToCart(item: ItemType, resta?: boolean): void {
 		const MAX_ITEMS = 5;
@@ -59,7 +78,7 @@ const useProduct = () => {
 		setItems(updatedCart);
 	}
 
-	function totalCompra() : string {
+	function totalCompra(): string {
 		const resultado = items.reduce((total, item) => total + (item.quantity * item.price), 0);
 		const formatter = new Intl.NumberFormat('en-US', {
 			style: 'currency',
