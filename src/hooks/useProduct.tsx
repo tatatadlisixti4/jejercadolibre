@@ -31,17 +31,19 @@ const useProduct = () => {
 	}, []);
 
 
-	function addToCart(item: ItemType, resta? : boolean) : void {
+	function addToCart(item: ItemType, resta?: boolean): void {
 		const MAX_ITEMS = 5;
 		const MIN_ITEMS = 0;
+		if (items.length >= 8) return;
+
 		const itemExist = items.findIndex(product => product.id === item.id);
 		if (itemExist >= 0) {
-			let updatedCart : ItemType[] = [];
-			if(resta) {
-				if( items[itemExist].quantity <= MIN_ITEMS ) return;
-				updatedCart  = items.map(product => product.id === item.id ? { ...item, quantity: product.quantity - 1 } : product);
+			let updatedCart: ItemType[] = [];
+			if (resta) {
+				if (items[itemExist].quantity <= MIN_ITEMS) return;
+				updatedCart = items.map(product => product.id === item.id ? { ...item, quantity: product.quantity - 1 } : product);
 			} else {
-				if( items[itemExist].quantity >= MAX_ITEMS ) return;
+				if (items[itemExist].quantity >= MAX_ITEMS) return;
 				updatedCart = items.map(product => product.id === item.id ? { ...item, quantity: product.quantity + 1 } : product);
 			}
 			setItems(updatedCart);
@@ -50,12 +52,18 @@ const useProduct = () => {
 		setItems([...items, item]);
 	}
 
+	function removeToCart(item: ItemType): void {
+		const updatedCart = items.filter(product => product.id !== item.id);
+		setItems(updatedCart);
+	}
+
 	return {
 		products,
 		loading,
 		error,
 		items,
-		addToCart
+		addToCart,
+		removeToCart
 	}
 }
 

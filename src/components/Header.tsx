@@ -2,7 +2,13 @@ import { useState } from "react";
 import Cart from "./Cart";
 import { ItemType } from "../schemas";
 
-export default function Header({items, addToCart} : {items: ItemType[], addToCart: (item: ItemType) => void}) {
+type HeaderProps = {
+	items: ItemType[];
+	addToCart: (item: ItemType) => void;
+	removeToCart: (item: ItemType) => void;
+}
+
+export default function Header({items, addToCart, removeToCart} : HeaderProps) {
 	const [cartState, setCartState] = useState(false);
 	const handlerClick = () => {
 		if(!cartState) {
@@ -22,7 +28,13 @@ export default function Header({items, addToCart} : {items: ItemType[], addToCar
 				onClick={handlerClick}
 			> 
 				<img src="/cart.svg" width={50} height={50} alt="carro" />
-				{cartState && (<Cart items={items} addToCart={addToCart}/>)}
+				{cartState && (
+					<Cart 
+						items={items} 
+						addToCart={addToCart} 
+						removeToCart={removeToCart}
+					/>
+				)}
 			</div>
 		</div>
 	)
