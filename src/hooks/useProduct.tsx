@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ItemsStorageResponseSchema, ItemType, ProductType, ResponseSchema, } from "../schemas";
 
 
@@ -55,6 +55,9 @@ const useProduct = () => {
 		fetchApi();
 	}, []);
 
+	/** UseMemo para totalCompra */
+	const resultado = useMemo(() => items.reduce((total, item) => total + (item.quantity * item.price), 0), [items]);
+
 	/** Funciones customHook */
 	function addToCart(item: ItemType, resta?: boolean): void {
 		const MAX_ITEMS = 5;
@@ -86,7 +89,7 @@ const useProduct = () => {
 	}
 
 	function totalCompra(): string {
-		const resultado = items.reduce((total, item) => total + (item.quantity * item.price), 0);
+		
 		const formatter = new Intl.NumberFormat('en-US', {
 			style: 'currency',
 			currency: 'USD',

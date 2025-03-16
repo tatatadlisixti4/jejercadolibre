@@ -18,7 +18,6 @@ export default function Cart({ items, addToCart, removeToCart, totalCompra, vaci
 			return;
 		}
 		addToCart(item, true);
-
 	}
 
 	function handlerRemoveButton(e: React.MouseEvent<HTMLImageElement, MouseEvent>, item: ItemType) {
@@ -32,7 +31,7 @@ export default function Cart({ items, addToCart, removeToCart, totalCompra, vaci
 	}
 
 	return (
-		<div className="absolute top-15 md:right-4 w-full max-w-[510px] min-w-[510px] border bg-amber-50 px-4 py-2 rounded-sm space-y-4">
+		<div className="absolute top-15 right-[-240px] md:right-4 w-full max-w-[510px] min-w-[510px] border bg-amber-50 px-4 py-2 rounded-sm space-y-4">
 			{items.length ? (
 				<>
 
