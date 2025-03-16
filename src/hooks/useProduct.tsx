@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ItemsStorageResponseSchema, ItemType, ProductType, ResponseSchema, } from "../schemas";
 
-
 const useProduct = () => {
 	/** Establecer el initalStates de items en función al localStorage validado */
 	const initialItemsState = () => {
