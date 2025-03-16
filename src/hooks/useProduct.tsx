@@ -82,6 +82,7 @@ const useProduct = () => {
 		setItems([...items, item]);
 	}
 
+	//
 	function removeToCart(item: ItemType): void {
 		const updatedCart = items.filter(product => product.id !== item.id);
 		setItems(updatedCart);
