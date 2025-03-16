@@ -2,7 +2,7 @@ import { ItemType } from "../schemas"
 
 type CartProps = {
 	items: ItemType[];
-	addToCart: (item: ItemType) => void
+	addToCart: (item: ItemType, resta?: boolean) => void
 }
 
 export default function Cart({ items, addToCart }: CartProps) {
@@ -10,7 +10,12 @@ export default function Cart({ items, addToCart }: CartProps) {
 	function handlerClick(e : React.MouseEvent<HTMLButtonElement, MouseEvent>, item: ItemType) {
 		e.stopPropagation();
 		const button = e.target as HTMLButtonElement;
-		if(button.textContent === "+") addToCart(item);
+		if(button.textContent === "+") {
+			addToCart(item);
+			return;
+		}
+		addToCart(item, true);
+		
 	}
 	return (
 		<div className="absolute w-full max-w-[450px] min-w-[450px] right-4 border bg-amber-50 px-4 py-2 rounded-sm space-y-4">
