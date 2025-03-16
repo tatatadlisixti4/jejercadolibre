@@ -6,9 +6,11 @@ type HeaderProps = {
 	items: ItemType[];
 	addToCart: (item: ItemType) => void;
 	removeToCart: (item: ItemType) => void;
+	totalCompra: () => string;
+	vaciarCarro: () => void;
 }
 
-export default function Header({items, addToCart, removeToCart} : HeaderProps) {
+export default function Header({items, addToCart, removeToCart, totalCompra, vaciarCarro} : HeaderProps) {
 	const [cartState, setCartState] = useState(false);
 	const handlerClick = () => {
 		if(!cartState) {
@@ -33,6 +35,8 @@ export default function Header({items, addToCart, removeToCart} : HeaderProps) {
 						items={items} 
 						addToCart={addToCart} 
 						removeToCart={removeToCart}
+						totalCompra={totalCompra}
+						vaciarCarro={vaciarCarro}
 					/>
 				)}
 			</div>

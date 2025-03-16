@@ -3,13 +3,15 @@ import Header from "./components/Header"
 import useProduct from "./hooks/useProduct"
 
 function App() {
-	const { products, loading, error , addToCart, items, removeToCart} = useProduct();
+	const { products, loading, error , addToCart, items, removeToCart, totalCompra, vaciarCarro} = useProduct();
 	return (
 		<>
 			<Header 
 				items={items} 	
 				addToCart={addToCart} 
 				removeToCart={removeToCart}
+				totalCompra={totalCompra}
+				vaciarCarro={vaciarCarro}
 			/>
 			<main>
 				<div className="container mx-auto border grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 p-4 rounded-sm gap-4">
