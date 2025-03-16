@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { ItemType, ProductType, ResponseSchema, } from "../schemas";
 
-
 const useProduct = () => {
 	const [products, setProducts] = useState<ProductType[]>([])
 	const [loading, setLoading] = useState(true);
@@ -32,15 +31,14 @@ const useProduct = () => {
 	}, []);
 
 
-
-	function addToCart(item: ItemType) {
+	function addToCart(item: ItemType) : void {
 		const itemExist = items.findIndex(product => product.id === item.id);
 		if (itemExist >= 0) {
-			const updatedCart = items.map(product => product.id === item.id ? {...item, quantity: product.quantity + 1} : product);
+			const updatedCart = items.map(product => product.id === item.id ? { ...item, quantity: product.quantity + 1 } : product);
 			setItems(updatedCart);
-			return
+			return;
 		}
-		setItems([...items, item])
+		setItems([...items, item]);
 	}
 
 	return {
