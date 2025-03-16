@@ -1,29 +1,36 @@
 import { useEffect, useState } from "react";
-import { ItemType, ProductType, ResponseSchema, } from "../schemas";
+import { ItemsStorageResponseSchema, ItemType, ProductType, ResponseSchema, } from "../schemas";
+
+
+function isStorageValid() {
+
+}
 
 const useProduct = () => {
+	/** States y datos iniciales */
 	const initialItemsState = () => {
 		if (localStorage.length) {
 			const itemsStorage = localStorage.getItem("items");
 			if(!itemsStorage) return [];
-			return JSON.parse(itemsStorage);
+			const validateStorage = ItemsStorageResponseSchema.safeParse(JSON.parse(itemsStorage));
+			if(!validateStorage.success) return [];
+			return validateStorage.data;
 		}
 		return [];
 	};
-	
 	
 	const [products, setProducts] = useState<ProductType[]>([])
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("")
 	const [items, setItems] = useState<ItemType[]>(initialItemsState());
 
-	useEffect(() => {
-		if (items.length) {
-			const itemsStorage = JSON.stringify(items);
-			localStorage.setItem("items", itemsStorage);
-		}
+	/** Actualización LocalStorage */
+	useEffect(() => {		
+		const itemsStorage = JSON.stringify(items);
+		localStorage.setItem("items", itemsStorage);
 	}, [items])
 
+	/** Fetch al endpoint */
 	useEffect(() => {
 		const fetchApi = async () => {
 			try {
@@ -47,8 +54,7 @@ const useProduct = () => {
 		fetchApi();
 	}, []);
 
-
-
+	/** Funciones customHook */
 	function addToCart(item: ItemType, resta?: boolean): void {
 		const MAX_ITEMS = 5;
 		const MIN_ITEMS = 1;
