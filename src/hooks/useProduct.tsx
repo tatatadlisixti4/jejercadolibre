@@ -31,7 +31,6 @@ const useProduct = () => {
 		fetchApi();
 	}, []);
 
-	
 	return {
 		products,
 		loading,

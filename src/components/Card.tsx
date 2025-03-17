@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router"
 import { ProductType } from "../schemas"
 import { useStore } from "../store"
 
@@ -6,8 +7,10 @@ type CardProps = {
 }
 
 export default function Card({ product }: CardProps) {
+	const navigate = useNavigate();
 	const addToCart = useStore(state => state.addToCart);
-	const handlerClick = () => {
+
+	function handlerClick() {
 		const { id, image, title, price, ...resto } = product;
 		addToCart({
 			id,
@@ -17,9 +20,17 @@ export default function Card({ product }: CardProps) {
 			quantity: 1
 		})
 	}
+
+	function redirectToPage() {
+		navigate(`/${product.id}`);
+	}
+
 	return (
-		<div className="flex flex-col justify-center items-center max-w-xs w-full mx-auto p-4 border-2 bg- rounded-sm ">
-			<div className="w-[120px] h-[180px] ">
+		<div className="flex flex-col justify-center items-center max-w-xs w-full mx-auto p-4 border-2 bg- rounded-sm">
+			<div
+				className="w-[120px] h-[180px] cursor-pointer"
+				onClick={redirectToPage}
+			>
 				<img
 					src={`${product.image}`}
 					alt="Imagen del producto"
