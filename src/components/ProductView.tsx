@@ -16,7 +16,6 @@ export default function ProductView() {
 	const productId = product ? Number(product) : 0;
 	if(isNaN(productId)) return; // ?
 
-	
 	return (
 		<div className="container mx-auto w-full">
 
