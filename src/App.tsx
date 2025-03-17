@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import Card from "./components/Card";
-import Header from "./components/Header"
 import useProduct from "./hooks/useProduct"
+import { useStore } from "./store";
 
 function App() {
 	const { products, loading, error } = useProduct();
+	const pagina = useStore(state => state.pagina);
+	const setPagina = useStore(state => state.setPagina);
+	//const [pagina, setPagina] = useState(1);
 
-	const [pagina, setPagina] = useState(1);
 	const [skip, setSkip] = useState(1);
 	
 	const TOTAL_PRODUCTOS = products.length;
@@ -31,9 +33,6 @@ function App() {
 	
 	return (
 		<>
-			<Header 
-				setPagina={setPagina}
-			/>
 			<main>
 				<div className="container mx-auto grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 p-4 gap-4">
 					{loading ? <p>Cargando...</p> : productsSlice.map(product => (

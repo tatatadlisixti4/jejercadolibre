@@ -7,11 +7,13 @@ const MIN_ITEMS = 1;
 /** Interface */
 interface Store {
 	items: ItemType[];
+	pagina: number;
 	addToCart: (item: ItemType, resta?: boolean) => void;
 	removeToCart: (item: ItemType) => void;
 	totalCompra: () => string;
 	vaciarCarro: () => void;
 	updateStorage: () => void;
+	setPagina: (pagina: number) => void;
 }
 
 /** Initial State Cart */
@@ -34,8 +36,15 @@ const initialItemsState = () => {
 
 /** Store */
 export const useStore = create<Store>((set, get) => ({
+	/** Paginador */
+	pagina: 1,
+	setPagina: (pagina) => {
+		set(() => ({
+			pagina
+		})) 
+	},
+	/** Cart */
 	items: initialItemsState(),
-
 	addToCart: (item, resta?) => {
 		if (get().items.length >= 8) return;
 		const itemExist = get().items.findIndex(

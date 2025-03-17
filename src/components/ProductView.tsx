@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router"
 export default function ProductView() {
 	const navigate = useNavigate();
 	const { product } = useParams();
-
 	useEffect(() => {
 		if (!product) {
 			navigate("/");
@@ -15,9 +14,12 @@ export default function ProductView() {
 	}, [navigate, product]);
 
 	const productId = product ? Number(product) : 0;
-	if(isNaN(productId)) return;
+	if(isNaN(productId)) return; // ?
+
 	
 	return (
-		<div>Hola</div>
+		<div className="container mx-auto w-full">
+
+		</div>
 	)
 }
