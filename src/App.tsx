@@ -5,7 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ProductType, ResponseSchema } from "./schemas";
 
 /** Función para obtener productos */
-async function getProducts() {
+export async function getProducts() {
+	console.log("Fetching products..."); 
 	try {
 		const req = await fetch("https://fakestoreapi.com/products/", {
 			headers: {
@@ -24,16 +25,19 @@ async function getProducts() {
 /** Componente React */
 function App() {
 	/** States iniciales */
-	const [products, setProducts] = useState<ProductType[]>([])
+	const products = useStore(state => state.products);
+	const setProducts = useStore(state => state.setProducts);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 
 	/** Query */
+	const shouldFetchData = products.length === 0;
 	const { data, isLoading, isError, isSuccess } = useQuery({
 		queryFn: getProducts,
 		queryKey: ['products'],
-	})
-
+		enabled: shouldFetchData
+	});
+	
 	/** Manejo resultados query */
 	useEffect(() => {
 		if (isLoading) return setLoading(true);
@@ -43,7 +47,7 @@ function App() {
 			setLoading(false);
 		}
 	}, [data, isLoading, isError, isSuccess]);
-
+	
 	/** Paginación */
 	const pagina = useStore(state => state.pagina);
 	const setPagina = useStore(state => state.setPagina);

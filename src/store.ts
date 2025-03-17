@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ItemsStorageResponseSchema, ItemType } from "./schemas";
+import { ItemsStorageResponseSchema, ItemType, ProductType, ResponseSchema } from "./schemas";
 /** Constantes */
 const MAX_ITEMS = 5;
 const MIN_ITEMS = 1;
@@ -8,12 +8,16 @@ const MIN_ITEMS = 1;
 interface Store {
 	items: ItemType[];
 	pagina: number;
+	products: ProductType[];
+	actualProduct: ProductType;
 	addToCart: (item: ItemType, resta?: boolean) => void;
 	removeToCart: (item: ItemType) => void;
 	totalCompra: () => string;
 	vaciarCarro: () => void;
 	updateStorage: () => void;
 	setPagina: (pagina: number) => void;
+	setActualProduct: (product: ProductType) => void;
+	setProducts: (products: ProductType[]) => void;
 }
 
 /** Initial State Cart */
@@ -34,14 +38,43 @@ const initialItemsState = () => {
 	return [];
 };
 
+const initialProductsState = () => {
+	if(localStorage.length) {
+		const productStorage = localStorage.getItem("products");
+		if(!productStorage) return [];
+		try {
+			const validateStorage = ResponseSchema.safeParse(JSON.parse(productStorage));
+			if(!validateStorage.success) return [];
+			return validateStorage.data; 
+		} catch (error) {
+			return [];
+		}
+	}
+	return [];
+}
+
 /** Store */
 export const useStore = create<Store>((set, get) => ({
 	/** Paginador */
 	pagina: 1,
 	setPagina: (pagina) => {
 		set(() => ({
-			pagina
-		})) 
+			pagina,
+		}));
+	},
+	/** Actual Product y Products*/
+	actualProduct: {} as ProductType,
+	setActualProduct: (product) => {
+		set(() => ({
+			actualProduct: product,
+		}));
+	},
+	products: initialProductsState(),
+	setProducts: (products) => {
+		set(() => ({
+			products
+		}));
+		localStorage.setItem("products", JSON.stringify(products));
 	},
 	/** Cart */
 	items: initialItemsState(),
@@ -77,7 +110,7 @@ export const useStore = create<Store>((set, get) => ({
 			return;
 		}
 		set(() => ({
-			items: [ ...get().items, item ],
+			items: [...get().items, item],
 		}));
 		const aux = get().items;
 		get().updateStorage();
@@ -116,5 +149,5 @@ export const useStore = create<Store>((set, get) => ({
 	updateStorage: () => {
 		const itemsStorage = JSON.stringify(get().items);
 		localStorage.setItem("items", itemsStorage);
-	}
+	},
 }));

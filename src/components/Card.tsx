@@ -9,6 +9,7 @@ type CardProps = {
 export default function Card({ product }: CardProps) {
 	const navigate = useNavigate();
 	const addToCart = useStore(state => state.addToCart);
+	const setActualProduct = useStore(state => state.setActualProduct);
 
 	function handlerClick() {
 		const { id, image, title, price, ...resto } = product;
@@ -23,6 +24,7 @@ export default function Card({ product }: CardProps) {
 
 	function redirectToPage() {
 		navigate(`/${product.id}`);
+		setActualProduct(product);
 	}
 
 	return (
