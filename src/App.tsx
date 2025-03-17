@@ -4,7 +4,8 @@ import Header from "./components/Header"
 import useProduct from "./hooks/useProduct"
 
 function App() {
-	const { products, loading, error , addToCart, items, removeToCart, totalCompra, vaciarCarro} = useProduct();
+	const { products, loading, error } = useProduct();
+
 	const [pagina, setPagina] = useState(1);
 	const [skip, setSkip] = useState(1);
 	
@@ -27,14 +28,10 @@ function App() {
 		setPagina(+paginaActual!)
 		return 0
 	}
+	
 	return (
 		<>
 			<Header 
-				items={items} 	
-				addToCart={addToCart} 
-				removeToCart={removeToCart}
-				totalCompra={totalCompra}
-				vaciarCarro={vaciarCarro}
 				setPagina={setPagina}
 			/>
 			<main>
@@ -43,7 +40,6 @@ function App() {
 						<Card 
 							key={product.id} 
 							product={product} 
-							addToCart={addToCart} 
 						/>
 					))}
 				</div>

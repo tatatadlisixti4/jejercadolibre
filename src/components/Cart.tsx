@@ -1,14 +1,13 @@
 import { ItemType } from "../schemas"
+import { useStore } from "../store";
 
-type CartProps = {
-	items: ItemType[];
-	addToCart: (item: ItemType, resta?: boolean) => void;
-	removeToCart: (item: ItemType) => void;
-	totalCompra: () => string;
-	vaciarCarro: () => void;
-}
 
-export default function Cart({ items, addToCart, removeToCart, totalCompra, vaciarCarro }: CartProps) {
+export default function Cart() {
+	const items = useStore(state => state.items);
+	const addToCart = useStore(state => state.addToCart);
+	const removeToCart = useStore(state => state.removeToCart);
+	const totalCompra = useStore(state => state.totalCompra);
+	const vaciarCarro = useStore(state => state.vaciarCarro);
 
 	function handlerClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, item: ItemType) {
 		e.stopPropagation();

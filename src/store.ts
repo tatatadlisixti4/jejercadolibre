@@ -11,6 +11,7 @@ interface Store {
 	removeToCart: (item: ItemType) => void;
 	totalCompra: () => string;
 	vaciarCarro: () => void;
+	updateStorage: () => void;
 }
 
 /** Initial State Cart */
@@ -63,11 +64,14 @@ export const useStore = create<Store>((set, get) => ({
 			set(() => ({
 				items: updatedCart,
 			}));
+			get().updateStorage();
 			return;
 		}
 		set(() => ({
-			items: { ...get().items, item },
+			items: [ ...get().items, item ],
 		}));
+		const aux = get().items;
+		get().updateStorage();
 	},
 
 	removeToCart: (item) => {
@@ -77,6 +81,7 @@ export const useStore = create<Store>((set, get) => ({
 		set(() => ({
 			items: updatedCart,
 		}));
+		get().updateStorage();
 	},
 
 	totalCompra: () => {
@@ -91,9 +96,16 @@ export const useStore = create<Store>((set, get) => ({
 		const total = formatter.format(resultado);
 		return total;
 	},
+
 	vaciarCarro: () => {
 		set(() => ({
 			items: [],
 		}));
+		get().updateStorage();
 	},
+
+	updateStorage: () => {
+		const itemsStorage = JSON.stringify(get().items);
+		localStorage.setItem("items", itemsStorage);
+	}
 }));

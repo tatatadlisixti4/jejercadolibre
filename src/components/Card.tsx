@@ -1,11 +1,12 @@
-import { ItemType, ProductType } from "../schemas"
+import { ProductType } from "../schemas"
+import { useStore } from "../store"
 
 type CardProps = {
-	product: ProductType,
-	addToCart: (item: ItemType) => void
+	product: ProductType
 }
 
-export default function Card({ product, addToCart }: CardProps) {
+export default function Card({ product }: CardProps) {
+	const addToCart = useStore(state => state.addToCart);
 	const handlerClick = () => {
 		const { id, image, title, price, ...resto } = product;
 		addToCart({
