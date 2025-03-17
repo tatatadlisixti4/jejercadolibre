@@ -62,6 +62,7 @@ export const useStore = create<Store>((set, get) => ({
 			pagina,
 		}));
 	},
+
 	/** Actual Product y Products*/
 	actualProduct: {} as ProductType,
 	setActualProduct: (product) => {
@@ -76,6 +77,7 @@ export const useStore = create<Store>((set, get) => ({
 		}));
 		localStorage.setItem("products", JSON.stringify(products));
 	},
+	
 	/** Cart */
 	items: initialItemsState(),
 	addToCart: (item, resta?) => {

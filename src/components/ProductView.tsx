@@ -1,48 +1,56 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router"
 import { useStore } from "../store";
+import { ProductType } from "../schemas";
 
 export default function ProductView() {
+	/** State inicial */
+	const [productoFinal, setProductoFinal] = useState<ProductType>({} as ProductType);
+
 	/** Navigate y parametros desde la Url */
 	const navigate = useNavigate();
 	const { product } = useParams();
+
+	/** Validaciónes  del parámetro */
+	const actualProduct = useStore(state => state.actualProduct);
+	const products = useStore(state => state.products);
+
 	useEffect(() => {
+		/** Existe el parámetro ? */
 		if (!product) {
 			navigate("/");
 			return;
 		}
+		/** Es un número ? */
 		const productId = Number(product);
-		if (isNaN(productId) || productId < 1 || !Number.isInteger(productId)) navigate("/");
+		if (isNaN(productId) || productId < 1 || !Number.isInteger(productId)) {
+			navigate("/");
+			return;
+		};
+
+		/** Existe dentro de la bd el producto ? */
+		if(productId !== actualProduct.id) {
+			const productExist = products.some(item => item.id === productId);
+			if(!productExist) {
+				navigate("/")
+				return;
+			}	
+			setProductoFinal(products[productId - 1])
+			return;
+		} 
+		setProductoFinal(actualProduct);
 	}, [navigate, product]);
 
-	const productId = product ? Number(product) : 0;
-	if(isNaN(productId)) return; 
+	/** Listo */
+	useEffect(() => {
+		if(productoFinal && productoFinal.id) {
+			console.log(productoFinal);
+		}
+	}, [productoFinal])
 
-	/** Producto actual desde Zustand */
-	const actualProduct = useStore(state => state.actualProduct);
-	const products = useStore(state => state.products);
-	console.log(products);
-	
-	if(productId !== actualProduct.id) {
-		console.log("distinto");
-		
-		const productExist = products.some(item => item.id === productId);
-		console.log(productExist);
-		
-		
-		
-	} else {
-		console.log("igual");
-		
-	}
-	
-	
-	
-	
-	
 	return (
 		<div className="container mx-auto w-full">
-
+			
 		</div>
 	)
 }
