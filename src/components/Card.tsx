@@ -12,7 +12,7 @@ export default function Card({ product }: CardProps) {
 	const setActualProduct = useStore(state => state.setActualProduct);
 
 	function handlerClick() {
-		const { id, image, title, price, ...resto } = product;
+		const { id, image, title, price } = product;
 		addToCart({
 			id,
 			image,

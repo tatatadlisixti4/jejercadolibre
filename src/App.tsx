@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "./components/Card";
 import { useStore } from "./store";
 import { useQuery } from "@tanstack/react-query";
-import { ProductType, ResponseSchema } from "./schemas";
+import { ResponseSchema } from "./schemas";
 
 /** Función para obtener productos */
 export async function getProducts() {

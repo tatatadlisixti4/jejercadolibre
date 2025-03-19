@@ -114,7 +114,6 @@ export const useStore = create<Store>((set, get) => ({
 		set(() => ({
 			items: [...get().items, item],
 		}));
-		const aux = get().items;
 		get().updateStorage();
 	},
 

@@ -7,9 +7,7 @@ export default function ProductView() {
 	/** States */
 	const [productoFinal, setProductoFinal] = useState<ProductType>({} as ProductType);
 	const addToCart = useStore(state => state.addToCart);
-	const items = useStore(state => state.items);
 	
-
 	/** Navigate y parametros desde la Url */
 	const navigate = useNavigate();
 	const { product } = useParams();
@@ -47,7 +45,7 @@ export default function ProductView() {
 
 	/** Funciones */
 	function handlerClick() {
-		const { id, image, title, price, ...resto } = productoFinal;
+		const { id, image, title, price } = productoFinal;
 		addToCart({
 			id,
 			image,
